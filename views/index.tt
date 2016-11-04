@@ -1,0 +1,102 @@
+<style type="text/css" media="screen">
+th { color: #ccc; font-weight: normal; }
+</style>
+<div class="container">
+    <h2>标签打印</h2>
+    <hr />
+    <div class="card">
+      <div class="card-block">
+            <div class="text-muted">#72 号打印机</div>
+      </div>
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>品名</th>
+                <th>净含量</th>
+                <th>保存条件</th>
+                <th>打印</th>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOREACH this = items %]
+            <tr>
+                <td>[% this.code %]</td>
+                <td>[% this.name %]</td>
+                <td>[% this.net %]</td>
+                <td>[% this.storage %]</td>
+                <td>
+
+<div class="btn-group btn-group-mini">
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="1">打印</button>
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="2">2</button>
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="5">5</button>
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="10">10</button>
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="20">20</button>
+<button class="btn btn-sm btn-outline-primary btn-print" data-code="[% this.code %]" data-qty="50">50</button>
+</div>
+                </td>
+            </tr>
+            [% END %]
+        </tbody>
+    </table>
+    </div>
+    <br />
+
+
+
+<form id="form-items-save">
+<div class="card">
+<div class="card-block">
+    <div class="text-muted">每行一个商品，半角逗号隔开，依次为编号，品名，净含量，保存条件</div>
+    <div class="form-group">
+        
+    <textarea class="form-control" name="items" rows="10">[% items_as_lines %]</textarea>
+    </div>
+    <button type="submit" class="btn btn-outline-primary">保存</button>
+</div>
+</div>
+</form>
+
+
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+
+    $('#form-items-save').ajaxForm({
+        type: 'post', dataType: 'json',
+        url: '[% request.uri_base %]/items/save',
+        beforeSubmit: function(){ },
+        success: function (json){
+            if ( json.ok ){
+                var url = '[% request.uri_base %]/';
+                location.href = url;
+            }else{ 
+                alert( json.errmsg );
+            }
+        }
+    });
+
+    $('.btn-print').on('click', function(){
+        var code = $(this).data('code');
+        var qty = $(this).data('qty');
+    
+        $.post(
+            '[% request.uri_base %]/item/print',
+            { code: code, qty: qty },
+            function(json){
+                if ( json.ok ){
+                    
+                }else{
+                    alert( json.errmsg );
+                }
+            },'json'
+        );
+
+    });
+
+    
+});
+</script>
