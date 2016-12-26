@@ -53,7 +53,8 @@ post '/item/print' => sub {
 
     #--------------------------------------------
     # 2仓3楼办公室
-    my $host = '192.168.11.237';
+    # my $host = '192.168.11.237';
+    my $host = '192.168.11.72';
     my $port = '9100';
 
     my $zebra = ZebraPrinter->new( host => $host, port => $port );
