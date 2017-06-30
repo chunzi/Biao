@@ -55,7 +55,12 @@
   net: 400g
   storage: 0-4度冷藏
 - code: 200004991
-  line: '200004991,非卖品,,0-4度冷藏'
+  line: '200004991,非卖品,,'
   name: 非卖品
-  net: ''
-  storage: 0-4度冷藏
+  net: ~
+  storage: ~
+- code: 200004992
+  line: '200004992,非卖品,常温,'
+  name: 非卖品
+  net: 常温
+  storage: ~
